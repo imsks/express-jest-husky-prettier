@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import { getDashboardData } from '../../controllers/user/dashboard';
+import { getAllCountries } from '../controllers';
 
-const userProfileRouter = Router();
-userProfileRouter.route('/').get(getDashboardData);
+const indexRouter = Router();
+indexRouter.route('/countries').get(getAllCountries);
 
-export default userProfileRouter;
+export default indexRouter;
