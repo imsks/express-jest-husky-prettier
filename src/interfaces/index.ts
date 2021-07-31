@@ -16,6 +16,13 @@ export interface UserDetailsRow {
 export interface GetCompanyData {
   id: number;
   name: string;
-  year: number;
+  year: string;
+  category: string;
+}
+
+export interface SetCompanyData {
+  id: number;
+  name: string;
+  year: string[];
   category: string;
 }
