@@ -1,11 +1,11 @@
-export interface UserCsvRow {
+export interface SourceCSVRowNames {
   country_or_area: string;
   year: number;
   value: number;
   category: string;
 }
 
-export interface UserDetailsRow {
+export interface CleanedRowNames {
   id: number;
   name: string;
   year: number;
@@ -16,13 +16,14 @@ export interface UserDetailsRow {
 export interface GetCompanyData {
   id: number;
   name: string;
-  year: string;
+  year: number;
   category: string;
 }
 
 export interface SetCompanyData {
   id: number;
   name: string;
-  year: string[];
-  category: string;
+  startYear: number;
+  endYear: number;
+  categories: (string | boolean)[];
 }
