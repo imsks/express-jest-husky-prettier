@@ -9,18 +9,18 @@ export interface CleanedRowNames {
   id: number;
   name: string;
   year: number;
-  value: number;
+  value: string;
   category: string;
 }
 
-export interface GetCompanyData {
+export interface GetCountryData {
   id: number;
   name: string;
   year: number;
   category: string;
 }
 
-export interface SetCompanyData {
+export interface SetCountryData {
   id: number;
   name: string;
   startYear: number;
