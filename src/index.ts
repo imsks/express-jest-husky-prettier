@@ -1,15 +1,13 @@
 import app from './app';
 import configEnv from './config';
-import connection from './database/DatabaseConfig';
 import {
+  createDatabase,
   createTable,
   setCleanedDataToJson,
-  createDatabase,
-  cleanDataFromSource,
   setSourceDataToJSON,
-} from './utils';
-
-const PORT = configEnv.PORT || 8000;
+} from './database-modules';
+import connection from './database/DatabaseConfig';
+import { cleanDataFromSource } from './utils';
 
 // // In production we won't need this as we'll already have the cleaned data it JSON
 // connection.connect(error => {
@@ -24,7 +22,7 @@ const PORT = configEnv.PORT || 8000;
 //   createTable();
 
 //   // 3. Parses data from CSV and put into database table => ONE TIME ONLY
-//   // cleanDataFromSource();
+//   cleanDataFromSource();
 
 //   // 4. Get whole source data in stuctured format in JSON file
 //   setSourceDataToJSON();
@@ -32,6 +30,8 @@ const PORT = configEnv.PORT || 8000;
 //   // 5. Saves cleaned data into JSON file
 //   setCleanedDataToJson();
 // });
+
+const PORT = configEnv.PORT || 8000;
 
 app.listen(PORT, () => {
   console.log(`Server running on localhost:${PORT}`);

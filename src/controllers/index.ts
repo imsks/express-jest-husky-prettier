@@ -10,6 +10,7 @@ export const getAllCountries = async (
 ): Promise<void> => {
   response.status(200).json({
     status: true,
+    count: CleanData.result.length,
     payload: CleanData.result,
   });
 };
@@ -27,8 +28,8 @@ export const queryDataFromJSONFile = async (
   >;
 
   if (parseInt(startYear) > parseInt(endYear)) {
-    response.status(200).json({
-      status: true,
+    response.status(400).json({
+      status: false,
       error: "endYear can't be greater than startYear",
     });
     return;

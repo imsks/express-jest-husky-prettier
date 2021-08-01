@@ -9,7 +9,7 @@ export interface CleanedRowNames {
   id: number;
   name: string;
   year: number;
-  value: string;
+  value: string | number;
   category: string;
 }
 

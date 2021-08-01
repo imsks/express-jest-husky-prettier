@@ -42,5 +42,5 @@ export const cleanDataFromSource = (): void => {
       count = count + 1;
     });
 
-  console.log('Clean data from source');
+  console.log('Cleaned data from source');
 };
