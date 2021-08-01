@@ -22,6 +22,17 @@ export const queryDataFromJSONFile = async (
   const { name } = request.params;
   const startYear = request.query.startYear as string;
   const endYear = request.query.endYear as string;
+  const parameters = request.query.parameters?.toString().split(',') as Array<
+    string
+  >;
+
+  if (parseInt(startYear) > parseInt(endYear)) {
+    response.status(200).json({
+      status: true,
+      error: "endYear can't be greater than startYear",
+    });
+    return;
+  }
 
   let listByCountryName = SourceData.result.filter(
     (countryData: CleanedRowNames) => countryData.name === name,
@@ -41,8 +52,18 @@ export const queryDataFromJSONFile = async (
     );
   }
 
+  // If parameters provided
+  if (parameters) {
+    listByCountryName = listByCountryName.filter(countryData => {
+      return parameters.every(parameter => {
+        return countryData.category.includes(parameter);
+      });
+    });
+  }
+
   response.status(200).json({
     status: true,
+    count: listByCountryName.length,
     payload: listByCountryName,
   });
 };
