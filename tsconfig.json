@@ -4,7 +4,6 @@
     "lib": ["es6"],
     "allowJs": true,
     "outDir": "build",
-    "rootDir": "src",
     "strict": true,
     "sourceMap": true,
     "target": "ES6",
@@ -12,8 +11,7 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "types": ["node", "jest"],
-    "typeRoots": ["./node_modules/@types"],
-    "baseUrl": "src"
+    "typeRoots": ["./node_modules/@types"]
   },
   "compileOnSave": true,
   "include": ["src/**/*"],
