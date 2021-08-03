@@ -1,0 +1,105 @@
+swagger: '2.0'
+info:
+  description: 'This is a sample server Petstore server.  You can find out more about     Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).      For this sample, you can use the api key `special-key` to test the authorization     filters.'
+  version: '1.0.0'
+  title: 'Bluesky Analytics Assignment APIs'
+basePath: '/api/v1'
+tags:
+  - name: 'Kaggle Data About Countries'
+  - name: 'v'
+    description: 'Country Data'
+schemes:
+  - 'https'
+  - 'http'
+paths:
+  /countries:
+    get:
+      tags:
+        - 'country'
+      summary: 'Returns all countries'
+      description: 'Returns all countries data'
+      produces:
+        - 'application/json'
+      parameters: []
+      responses:
+        '200':
+          description: 'successful operation'
+          schema:
+            type: 'object'
+            properties:
+              status:
+                type: 'boolean'
+              count:
+                type: 'integer'
+                format: 'int64'
+              payload:
+                type: 'array'
+                items:
+                  type: 'object'
+                  properties:
+                    id:
+                      type: 'integer'
+                    name:
+                      type: 'string'
+                    startYear:
+                      type: 'integer'
+                    endYear:
+                      type: 'integer'
+                    categories:
+                      type: 'string'
+  /country/{name}:
+    get:
+      tags:
+        - 'country'
+      summary: 'Return country data'
+      description: 'Return country data by name'
+      # operationId: "getInventory"
+      produces:
+        - 'application/json'
+      parameters:
+        - name: 'name'
+          in: 'path'
+          description: 'The country name that needs to be fetched. Example Australia'
+          required: true
+          type: 'string'
+        - name: 'startYear'
+          in: 'query'
+          description: 'startYear should be greater than 1994'
+          required: false
+          type: 'string'
+        - name: 'endYear'
+          in: 'query'
+          description: 'endYear should be greater than 2014'
+          required: false
+          type: 'string'
+        - name: 'parameters'
+          in: 'query'
+          description: 'parameters could be comma separated values like co2 & no2'
+          required: false
+          type: 'string'
+      responses:
+        '200':
+          description: 'successful operation'
+          schema:
+            type: 'object'
+            properties:
+              status:
+                type: 'boolean'
+              count:
+                type: 'integer'
+                format: 'int64'
+              payload:
+                type: 'array'
+                items:
+                  type: 'object'
+                  properties:
+                    id:
+                      type: 'integer'
+                    name:
+                      type: 'string'
+                    year:
+                      type: 'integer'
+                    value:
+                      type: 'integer'
+                    category:
+                      type: 'string'

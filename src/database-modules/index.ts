@@ -1,28 +1,32 @@
 import connection from '../database/DatabaseConfig';
 import { CleanedRowNames, GetCountryData, SetCountryData } from '../interfaces';
 
-export const createTables = (): void => {
-  connection.run(
-    `CREATE TABLE IF NOT EXISTS mytable(
-        id INTEGER NOT NULL PRIMARY KEY,
-        name VARCHAR(24) NOT NULL,
-        year INTEGER  NOT NULL,
-        value VARCHAR(16) NOT NULL,
-        category VARCHAR(110) NOT NULL
-     )`,
-  );
+export const createTables = (): Promise<void> => {
+  return new Promise<void>((resolve, reject) => {
+    connection.run(
+      `CREATE TABLE IF NOT EXISTS mytable(
+          id INTEGER NOT NULL PRIMARY KEY,
+          name VARCHAR(24) NOT NULL,
+          year INTEGER  NOT NULL,
+          value VARCHAR(16) NOT NULL,
+          category VARCHAR(110) NOT NULL
+       )`,
+    );
 
-  connection.run(
-    `CREATE TABLE IF NOT EXISTS countrywisedata(
-        id INTEGER NOT NULL PRIMARY KEY,
-        name VARCHAR(24) NOT NULL,
-        startYear INTEGER  NOT NULL,
-        endYear INTEGER  NOT NULL,
-        categories VARCHAR(110) NOT NULL
-     )`,
-  );
+    connection.run(
+      `CREATE TABLE IF NOT EXISTS countrywisedata(
+          id INTEGER NOT NULL PRIMARY KEY,
+          name VARCHAR(24) NOT NULL,
+          startYear INTEGER  NOT NULL,
+          endYear INTEGER  NOT NULL,
+          categories VARCHAR(110) NOT NULL
+       )`,
+    );
 
-  console.log('2. Table created');
+    console.log('2. Table created');
+
+    resolve();
+  });
 };
 
 export const setCountryWiseDataToTable = (): void => {
@@ -91,10 +95,10 @@ export const setCountryWiseDataToTable = (): void => {
           index = index + 1;
         }
       });
-
-      console.log('4. CountryWiseData table created');
     },
   );
+
+  console.log('4. CountryWiseData table created');
 };
 
 export const getCleanedSourceData = (): Promise<Array<SetCountryData>> => {
@@ -103,10 +107,6 @@ export const getCleanedSourceData = (): Promise<Array<SetCountryData>> => {
       'SELECT * FROM countrywisedata',
       (error, result: Array<SetCountryData>) => {
         if (error) reject(error);
-
-        result.forEach((item: SetCountryData) => {
-          console.log(item.categories);
-        });
 
         resolve(result);
       },
