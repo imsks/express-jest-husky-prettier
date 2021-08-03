@@ -4,7 +4,7 @@
   "description": "blue-sky-analytics-assignment",
   "main": "src/index.ts",
   "scripts": {
-    "build": "rimraf ./build && tsc",
+    "build": "tsc",
     "start:dev": "NODE_ENV=development nodemon src/index.ts",
     "start": "node build/index.js",
     "postinstall": "npm run build",
