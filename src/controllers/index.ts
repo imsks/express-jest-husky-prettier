@@ -80,6 +80,7 @@ export const queryDataFromJSONFile = async (
     });
     return;
   }
+
   response.status(200).json({
     status: true,
     count: listByCountryName.length,

@@ -104,6 +104,10 @@ export const getCleanedSourceData = (): Promise<Array<SetCountryData>> => {
       (error, result: Array<SetCountryData>) => {
         if (error) reject(error);
 
+        result.forEach((item: SetCountryData) => {
+          console.log(item.categories);
+        });
+
         resolve(result);
       },
     );
