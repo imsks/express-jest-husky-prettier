@@ -1,7 +1,7 @@
 import app from './app';
 import configEnv from './config';
 import {
-  createTable,
+  createTables,
   setCountryWiseDataToTable,
   // setSourceDataToJSON,
 } from './database-modules';
@@ -10,7 +10,7 @@ import { cleanDataFromSource } from './utils';
 
 connection.serialize(() => {
   // 1. Creates table if not created
-  createTable();
+  createTables();
 
   // 2. Parses data from CSV and put into database table => ONE TIME ONLY
   cleanDataFromSource().then(() => {
@@ -18,8 +18,6 @@ connection.serialize(() => {
     setCountryWiseDataToTable();
   });
 });
-
-// connection.close();
 
 const PORT = configEnv.PORT || 8000;
 

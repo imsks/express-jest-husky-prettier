@@ -1,7 +1,7 @@
 import connection from '../database/DatabaseConfig';
-import { GetCountryData, SetCountryData } from '../interfaces';
+import { CleanedRowNames, GetCountryData, SetCountryData } from '../interfaces';
 
-export const createTable = (): void => {
+export const createTables = (): void => {
   connection.run(
     `CREATE TABLE IF NOT EXISTS mytable(
         id INTEGER NOT NULL PRIMARY KEY,
@@ -84,35 +84,41 @@ export const setCountryWiseDataToTable = (): void => {
           connection.run(
             `INSERT INTO countrywisedata(id, name, startYear, endYear, categories) VALUES (${index},'${name}',${startYear},${endYear},'${categories}')`,
             (error: Error) => {
-              if (error) {
-                console.log(error);
-              }
+              if (error) throw error;
             },
           );
-
-          // connection.all('SELECT * FROM countrywisedata', (error, row) => {
-          //   if (error) throw error;
-          //   console.log(row);
-          // });
 
           index = index + 1;
         }
       });
+
       console.log('4. CountryWiseData table created');
     },
   );
 };
 
-export const getCleanedSourceData = (): any => {
-  // let output: Array<SetCountryData> = [];
+export const getCleanedSourceData = (): Promise<Array<SetCountryData>> => {
+  return new Promise((resolve, reject) => {
+    connection.all(
+      'SELECT * FROM countrywisedata',
+      (error, result: Array<SetCountryData>) => {
+        if (error) reject(error);
 
-  connection.all(
-    'SELECT * FROM countrywisedata',
-    (error, result: Array<SetCountryData>) => {
-      if (error) throw error;
-      return result as Array<SetCountryData>;
-    },
-  );
+        resolve(result);
+      },
+    );
+  });
+};
 
-  // return output;
+export const getSourceDataFromTable = (): Promise<Array<CleanedRowNames>> => {
+  return new Promise((resolve, reject) => {
+    connection.all(
+      'SELECT * FROM mytable',
+      (error, result: Array<CleanedRowNames>) => {
+        if (error) reject(error);
+
+        resolve(result);
+      },
+    );
+  });
 };

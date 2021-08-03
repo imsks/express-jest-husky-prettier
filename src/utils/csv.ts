@@ -32,11 +32,9 @@ export const cleanDataFromSource = async (): Promise<void> => {
         } as CleanedRowNames;
 
         connection.run(
-          `INSERT INTO mytable(id, name,year,value,category) VALUES (${rowData.id},'${rowData.name}',${rowData.year},${rowData.value},'${rowData.category}')`,
+          `INSERT INTO mytable(id, name, year, value, category) VALUES (${rowData.id},'${rowData.name}',${rowData.year},${rowData.value},'${rowData.category}')`,
           (error: Error) => {
-            if (error) {
-              console.log(error);
-            }
+            if (error) reject(error);
 
             resolve();
           },
