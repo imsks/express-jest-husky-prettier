@@ -1,17 +1,5 @@
-import * as fs from 'fs';
-import path from 'path';
 import connection from '../database/DatabaseConfig';
 import { GetCountryData, SetCountryData } from '../interfaces';
-
-export const createDatabase = (): void => {
-  connection.run(
-    `CREATE DATABASE IF NOT EXISTS blue_sky_analytics_assignment;`,
-    error => {
-      if (error) throw error;
-      console.log('Database created');
-    },
-  );
-};
 
 export const createTable = (): void => {
   connection.run(
@@ -23,30 +11,22 @@ export const createTable = (): void => {
         category VARCHAR(110) NOT NULL
      )`,
   );
+
+  connection.run(
+    `CREATE TABLE IF NOT EXISTS countrywisedata(
+        id INTEGER NOT NULL PRIMARY KEY,
+        name VARCHAR(24) NOT NULL,
+        startYear INTEGER  NOT NULL,
+        endYear INTEGER  NOT NULL,
+        categories VARCHAR(110) NOT NULL
+     )`,
+  );
+
   console.log('2. Table created');
 };
 
-export const setSourceDataToJSON = (): void => {
-  connection.run(
-    'SELECT id, name, year, value, category FROM mytable',
-    (error, result) => {
-      // console.log(result);
-      // Write teh JSON with cleaned up data
-      fs.writeFile(
-        path.resolve(__dirname, '../assets', 'sourceData.json'),
-        JSON.stringify({ result }),
-        error => {
-          if (error) throw error;
-        },
-      );
-    },
-  );
-
-  console.log('Source data set');
-};
-
-export const setCleanedDataToJson = (): void => {
-  connection.run(
+export const setCountryWiseDataToTable = (): void => {
+  connection.all(
     'SELECT id, name, year, category FROM mytable',
     (error, result: Array<GetCountryData>) => {
       if (error) throw error;
@@ -97,18 +77,42 @@ export const setCleanedDataToJson = (): void => {
             categories: firstElementInCountryList.categories,
           });
 
-          // Write teh JSON with cleaned up data
-          fs.writeFile(
-            path.resolve(__dirname, '../assets', 'cleanData.json'),
-            JSON.stringify({ result: output }),
-            error => {
-              if (error) throw error;
+          const startYear = lastElementInCountryList.year;
+          const endYear = firstElementInCountryList.year;
+          const categories = firstElementInCountryList.categories.toString();
+
+          connection.run(
+            `INSERT INTO countrywisedata(id, name, startYear, endYear, categories) VALUES (${index},'${name}',${startYear},${endYear},'${categories}')`,
+            (error: Error) => {
+              if (error) {
+                console.log(error);
+              }
             },
           );
+
+          // connection.all('SELECT * FROM countrywisedata', (error, row) => {
+          //   if (error) throw error;
+          //   console.log(row);
+          // });
 
           index = index + 1;
         }
       });
+      console.log('4. CountryWiseData table created');
     },
   );
+};
+
+export const getCleanedSourceData = (): any => {
+  // let output: Array<SetCountryData> = [];
+
+  connection.all(
+    'SELECT * FROM countrywisedata',
+    (error, result: Array<SetCountryData>) => {
+      if (error) throw error;
+      return result as Array<SetCountryData>;
+    },
+  );
+
+  // return output;
 };

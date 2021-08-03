@@ -1,18 +1,21 @@
 import { Request, Response } from 'express';
+import { getCleanedSourceData } from '../database-modules';
 import { CleanedRowNames } from '../interfaces';
-import CleanData from '../assets/cleanData.json';
-import SourceData from '../assets/sourceData.json';
+// import CleanData from '../assets/cleanData.json';
+// import SourceData from '../assets/sourceData.json';
 
 // 1. Get all countries data
 export const getAllCountries = async (
   request: Request,
   response: Response,
 ): Promise<void> => {
-  // response.status(200).json({
-  //   status: true,
-  //   count: CleanData.result.length,
-  //   payload: CleanData.result,
-  // });
+  const result = getCleanedSourceData();
+
+  response.status(200).json({
+    status: true,
+    // count: CleanData.result.length,
+    payload: result,
+  });
 };
 
 // 2. Query data from JSON file
