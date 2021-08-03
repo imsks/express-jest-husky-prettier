@@ -30,17 +30,21 @@ export const cleanDataFromSource = (): void => {
         category: row.category,
       } as CleanedRowNames;
 
-      connection.query(
+      connection.run(
         `INSERT INTO mytable(id, name,year,value,category) VALUES (${rowData.id},'${rowData.name}',${rowData.year},${rowData.value},'${rowData.category}')`,
-        function(error) {
-          if (error) {
-            throw error;
+        (err: any, result: any) => {
+          if (err) {
+            console.log(err);
           }
+
+          console.log(result);
         },
       );
+
+      console.log(count);
 
       count = count + 1;
     });
 
-  console.log('Cleaned data from source');
+  console.log('3. Cleaned data from source');
 };

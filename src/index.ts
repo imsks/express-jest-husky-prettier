@@ -31,6 +31,32 @@ import { cleanDataFromSource } from './utils';
 //   setCleanedDataToJson();
 // });
 
+connection.serialize(() => {
+  // 2. Creates table if not created
+  createTable();
+
+  // 3. Parses data from CSV and put into database table => ONE TIME ONLY
+  cleanDataFromSource();
+
+  connection.each('SELECT * FROM mytable', (error, rows) => {
+    if (error) throw error;
+
+    console.log(rows);
+  });
+
+  // connection.each('SELECT * FROM mytable', function(err, row) {
+  //   console.log(row);
+  // });
+
+  // // 4. Get whole source data in stuctured format in JSON file
+  // setSourceDataToJSON();
+
+  // // 5. Saves cleaned data into JSON file
+  // setCleanedDataToJson();
+});
+
+// connection.close();
+
 const PORT = configEnv.PORT || 8000;
 
 app.listen(PORT, () => {
