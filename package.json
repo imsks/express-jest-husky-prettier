@@ -7,6 +7,7 @@
     "build": "tsc",
     "start:dev": "NODE_ENV=development nodemon src/index.ts",
     "start": "node build/index.js",
+    "postinstall": "npm run build && cp -r src/assets build/assets",
     "lint": "eslint . --ext .ts",
     "prettier-format": "run-script-os",
     "prettier-format:win32": "prettier --config .prettierrc \"./src/**/*.ts\" --write",
