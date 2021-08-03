@@ -70,9 +70,62 @@ describe('Query data from JSON file', () => {
     done();
   });
 
-  it('2. Should return no country if parameters are incorrect', async done => {
+  it('2. Should return error if parameters are incorrect', async done => {
     const response = await request.get(
       `${BASE_API_URL}/country/${countryName}?startYear=${correctParameters.startYear}&endYear=${correctParameters.endYear}&parameters=${incorrectQueryParameters}`,
+    );
+
+    expect(response.statusCode).toEqual(400);
+
+    const { status, error } = response.body;
+
+    expect(status).toEqual(false);
+    expect(response.body).toHaveProperty('error');
+
+    expect(typeof error).toBe('string');
+
+    done();
+  });
+
+  it('3. Should return error if startYear < 1990', async done => {
+    const startYear = 1985;
+    const response = await request.get(
+      `${BASE_API_URL}/country/${countryName}?startYear=${startYear}&endYear=${correctParameters.endYear}&parameters=${correctQueryParameters}`,
+    );
+
+    expect(response.statusCode).toEqual(400);
+
+    const { status, error } = response.body;
+
+    expect(status).toEqual(false);
+    expect(response.body).toHaveProperty('error');
+
+    expect(typeof error).toBe('string');
+
+    done();
+  });
+
+  it('3. Should return error if endYear > 2014', async done => {
+    const endYear = 2020;
+    const response = await request.get(
+      `${BASE_API_URL}/country/${countryName}?startYear=${correctParameters.startYear}&endYear=${endYear}&parameters=${correctQueryParameters}`,
+    );
+
+    expect(response.statusCode).toEqual(400);
+
+    const { status, error } = response.body;
+
+    expect(status).toEqual(false);
+    expect(response.body).toHaveProperty('error');
+
+    expect(typeof error).toBe('string');
+
+    done();
+  });
+
+  it('4. Should return countries with filtered data', async done => {
+    const response = await request.get(
+      `${BASE_API_URL}/country/${countryName}?startYear=${correctParameters.startYear}&endYear=${correctParameters.endYear}&parameters=${correctQueryParameters}`,
     );
 
     expect(response.statusCode).toEqual(200);
@@ -86,15 +139,59 @@ describe('Query data from JSON file', () => {
     expect(typeof count).toBe('number');
     expect(typeof payload).toBe('object');
 
-    expect(count).toBe(0);
-    expect(payload.length).toEqual(0);
+    expect(count > 0).toBe(true);
+    expect(payload.length > 0).toEqual(true);
 
     done();
   });
 
-  it('3. Should return countries with filtered data', async done => {
+  it('5. Should return countries with filtered data => Only startYear provided', async done => {
     const response = await request.get(
-      `${BASE_API_URL}/country/${countryName}?startYear=${correctParameters.startYear}&endYear=${correctParameters.endYear}&parameters=${correctQueryParameters}`,
+      `${BASE_API_URL}/country/${countryName}?startYear=${correctParameters.startYear}`,
+    );
+
+    expect(response.statusCode).toEqual(200);
+
+    const { status, count, payload } = response.body;
+
+    expect(status).toEqual(true);
+    expect(response.body).toHaveProperty('payload');
+    expect(response.body).toHaveProperty('count');
+
+    expect(typeof count).toBe('number');
+    expect(typeof payload).toBe('object');
+
+    expect(count > 0).toBe(true);
+    expect(payload.length > 0).toEqual(true);
+
+    done();
+  });
+
+  it('6. Should return countries with filtered data => Only endYear provided', async done => {
+    const response = await request.get(
+      `${BASE_API_URL}/country/${countryName}?endYear=${correctParameters.endYear}`,
+    );
+
+    expect(response.statusCode).toEqual(200);
+
+    const { status, count, payload } = response.body;
+
+    expect(status).toEqual(true);
+    expect(response.body).toHaveProperty('payload');
+    expect(response.body).toHaveProperty('count');
+
+    expect(typeof count).toBe('number');
+    expect(typeof payload).toBe('object');
+
+    expect(count > 0).toBe(true);
+    expect(payload.length > 0).toEqual(true);
+
+    done();
+  });
+
+  it('7. Should return countries with filtered data => Only parameters provided', async done => {
+    const response = await request.get(
+      `${BASE_API_URL}/country/${countryName}?parameters=${correctQueryParameters}`,
     );
 
     expect(response.statusCode).toEqual(200);

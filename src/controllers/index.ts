@@ -27,6 +27,16 @@ export const queryDataFromJSONFile = async (
     string
   >;
 
+  // If startYear < 1990 or endYear > 2014, return error
+  if (parseInt(startYear) < 1990 || parseInt(endYear) > 2014) {
+    response.status(400).json({
+      status: false,
+      error: 'No data found. Please check you filters',
+    });
+    return;
+  }
+
+  // if startYear > endYear, return error
   if (parseInt(startYear) > parseInt(endYear)) {
     response.status(400).json({
       status: false,
@@ -60,6 +70,15 @@ export const queryDataFromJSONFile = async (
         return countryData.category.includes(parameter);
       });
     });
+  }
+
+  // If listByCountryName.length === 0, return error
+  if (listByCountryName.length === 0) {
+    response.status(400).json({
+      status: false,
+      error: 'No data found. Please check you filters',
+    });
+    return;
   }
 
   response.status(200).json({

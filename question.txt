@@ -21,3 +21,28 @@ Also, write a brief answer for the following:
 What was the most challenging part?
 What was the most fun part?
 What do you think is wrong with this task or could be made better in this task?
+
+
+JASHANPREET #FEEDBACK 1
+Hey Sachin,
+
+I was going over your assignment and would like to mention few things:
+- can't access the GitHub link, maybe the repo is private
+- parameters other than co2 are missing 
+- extra MySQL code is there while it can't be tested (either use it or don't)
+- storing data in JSON is fine but currently it's just a cached version and you never store cache in a file (use in-mem DB for small projects) 
+- validations are not in place (like if I write startYear=1880, it doesn't show any error nor data) 
+- I liked that you added tests (although this can be improved)
+- API documentation is missing
+
+and while this is not an exhaustive list, the assignment feels like it was created `in a rush` or like `just finish it somehow`. 
+I would like you to go through the assignment again and show `The best you can do`. Calculate and ask for the time that you would need to nail this to perfection.
+
+SACHIN ANSWER #1
+1. Just added your email jashan@breezo.in as a collaborator to the repo. => FIXED
+2. There are two parameters - co2 & no2 as there was only co2 in data so to test I'd add no2 by myself. To test you can visit the link => FIXED
+3. I'd prefer being it there so that whenever I'd need to run it I can because some code also creates tables and Databases if not exists so if that won't be there app will crash. For the testing part, I'd prefer to use it for endpoints only. => PREF
+4. Storing data in the file is not right. Honestly I didn't know that yet so it's helpful. I don't have access to in-memory DB as of now. If you can guide me with this so great I mean does it cost money or no. => RESEARCH
+5. Validation feedback is good. I should also check if startYear and endYear are both in range. I'll fix that => FIXME
+6. Yes, tests can be improved. I'll try to add a few more test cases though. #IMPROVEMENT
+7. I'll add API doc in the readme.md though. #IMPROVEMENT
