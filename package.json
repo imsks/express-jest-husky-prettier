@@ -1,13 +1,13 @@
 {
-  "name": "blue-sky-analytics-assignment",
+  "name": "express-jest-husky-prettier",
   "version": "1.0.0",
-  "description": "blue-sky-analytics-assignment",
+  "description": "express-jest-husky-prettier",
   "main": "src/index.ts",
   "scripts": {
-    "build": "rimraf ./build && tsc && cp -r src/assets build/assets",
+    "build": "rimraf ./build && tsc",
     "start:dev": "NODE_ENV=development nodemon src/index.ts",
     "start": "node build/index.js",
-    "postinstall": "npm run build && cp -r src/assets build/assets",
+    "postinstall": "npm run build",
     "lint": "eslint . --ext .ts",
     "prettier-format": "run-script-os",
     "prettier-format:win32": "prettier --config .prettierrc \"./src/**/*.ts\" --write",
@@ -17,8 +17,8 @@
     "prettier-watch:win32": "onchange \"src/**/*.ts\" -- prettier --write {{changed}}",
     "prettier-watch:darwin:linux": "onchange 'src/**/*.ts' -- prettier --write {{changed}}",
     "prettier-watch:default": "onchange 'src/**/*.ts' -- prettier --write {{changed}}",
-    "test": "jest",
-    "test:dev": "jest --watchAll"
+    "test": "NODE_ENV=development jest",
+    "test:dev": "NODE_ENV=development jest --watchAll"
   },
   "keywords": [],
   "author": "",
@@ -33,18 +33,20 @@
     "@types/node": "^15.6.1",
     "@types/sqlite3": "^3.1.7",
     "@types/supertest": "^2.0.11",
-    "@types/swagger-ui-express": "^4.1.3",
     "@typescript-eslint/eslint-plugin": "^2.21.0",
     "@typescript-eslint/parser": "^2.21.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-jest": "^24.4.0",
     "eslint-plugin-prettier": "^3.1.2",
     "husky": "^4.2.3",
+    "jest": "^27.0.6",
     "nodemon": "^1.19.1",
     "onchange": "^6.1.0",
     "prettier": "^1.19.1",
     "rimraf": "^3.0.0",
     "supertest": "^6.1.4",
+    "ts-jest": "^27.0.4",
     "ts-node": "^8.3.0",
     "typescript": "^4.3.2"
   },
@@ -52,16 +54,11 @@
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "dotenv": "^8.6.0",
-    "eslint-plugin-jest": "^24.1.0",
     "express": "^4.17.1",
-    "fast-csv": "^4.3.6",
-    "jest": "^26.5.3",
     "moment": "^2.29.1",
     "morgan": "^1.10.0",
     "mysql": "^2.18.1",
     "node-typescript": "^0.1.3",
-    "sqlite3": "^5.0.2",
-    "swagger-ui-express": "^4.1.6",
-    "ts-jest": "^26.4.1"
+    "sqlite3": "^5.0.2"
   }
 }

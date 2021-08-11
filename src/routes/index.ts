@@ -1,9 +1,8 @@
 import { Router } from 'express';
-import { getAllCountries, queryDataFromJSONFile } from '../controllers';
+import { getStatus } from '../controllers';
 
 const indexRouter = Router();
 
-indexRouter.route('/countries').get(getAllCountries);
-indexRouter.route('/country/:name').get(queryDataFromJSONFile);
+indexRouter.route('/test').get(getStatus);
 
 export default indexRouter;
