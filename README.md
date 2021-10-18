@@ -1,4 +1,4 @@
-# Express Jest Husky & Prettier Biolderplate
+# Express Jest Husky & Prettier Biolerplate
 An Express Biolerplat With Jest, Husky and Prettier
 
 ## Installation
